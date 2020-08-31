@@ -1,14 +1,11 @@
 import { END, eventChannel } from 'redux-saga'
 import { call, put, take, takeEvery, takeLatest, all } from 'redux-saga/effects'
-import PollingBlockTracker from 'eth-block-tracker'
 import * as BlocksActions from './constants'
-import * as ContractActions from '../contracts/constants'
 
 /*
  * Listen for Blocks
  */
-
-export function createBlockChannel ({ drizzle, web3, syncAlways }) {
+export function createBlockChannel ({ drizzle, web3 }) {
   return eventChannel(emit => {
     const blockEvents = web3.eth
       .subscribe('newBlockHeaders', (error, result) => {
@@ -22,7 +19,7 @@ export function createBlockChannel ({ drizzle, web3, syncAlways }) {
         }
       })
       .on('data', blockHeader => {
-        emit({ type: BlocksActions.BLOCK_RECEIVED, blockHeader, drizzle, web3, syncAlways })
+        emit({ type: BlocksActions.BLOCK_RECEIVED, blockHeader, drizzle, web3 })
       })
       .on('error', error => {
         emit({ type: BlocksActions.BLOCKS_FAILED, error })
@@ -37,71 +34,10 @@ export function createBlockChannel ({ drizzle, web3, syncAlways }) {
   })
 }
 
-function * callCreateBlockChannel ({ drizzle, web3, syncAlways }) {
+function * callCreateBlockChannel ({ drizzle, web3 }) {
   const blockChannel = yield call(createBlockChannel, {
     drizzle,
-    web3,
-    syncAlways
-  })
-
-  try {
-    while (true) {
-      var event = yield take(blockChannel)
-      yield put(event)
-    }
-  } finally {
-    blockChannel.close()
-  }
-}
-
-/*
- * Poll for Blocks
- */
-
-export function createBlockPollChannel ({
-  drizzle,
-  interval,
-  web3,
-  syncAlways
-}) {
-  return eventChannel(emit => {
-    const blockTracker = new PollingBlockTracker({
-      provider: web3.currentProvider,
-      pollingInterval: interval
-    })
-
-    blockTracker.on('block', block => {
-      emit({ type: BlocksActions.BLOCK_FOUND, block, drizzle, web3, syncAlways })
-    })
-
-    blockTracker.start().catch(error => {
-      emit({ type: BlocksActions.BLOCKS_FAILED, error })
-      emit(END)
-    })
-
-    const unsubscribe = () => {
-      blockTracker.stop().catch(_ => {
-        // PollingBlockTracker assumes there is an outstanding event subscription.
-        // However for our tests we start and stop a PollingBlockTracker in succession
-        // that triggers an error.
-      })
-    }
-
-    return unsubscribe
-  })
-}
-
-function * callCreateBlockPollChannel ({
-  drizzle,
-  interval,
-  web3,
-  syncAlways
-}) {
-  const blockChannel = yield call(createBlockPollChannel, {
-    drizzle,
-    interval,
-    web3,
-    syncAlways
+    web3
   })
 
   try {
@@ -117,7 +53,6 @@ function * callCreateBlockPollChannel ({
 /*
  * Process Blocks
  */
-
 function * processBlockHeader ({ blockHeader, drizzle, web3, syncAlways }) {
   const blockNumber = blockHeader.number
 
@@ -133,7 +68,7 @@ function * processBlockHeader ({ blockHeader, drizzle, web3, syncAlways }) {
   }
 }
 
-function * processBlock ({ block, drizzle, web3, syncAlways }) {
+function * processBlock ({ block, drizzle, syncAlways }) {
   try {
     // Emit block for addition to store.
     // Regardless of syncing success/failure, this is still the latest block.
@@ -182,10 +117,6 @@ function * blocksSaga () {
   // Block Subscriptions
   yield takeLatest(BlocksActions.BLOCKS_LISTENING, callCreateBlockChannel)
   yield takeEvery(BlocksActions.BLOCK_RECEIVED, processBlockHeader)
-
-  // Block Polling
-  yield takeLatest(BlocksActions.BLOCKS_POLLING, callCreateBlockPollChannel)
-  yield takeEvery(BlocksActions.BLOCK_FOUND, processBlock)
 }
 
 export default blocksSaga

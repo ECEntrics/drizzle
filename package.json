@@ -8,7 +8,6 @@
   "repository": "github:Ezerous/drizzle",
   "dependencies": {
     "deepmerge": "4.2.2",
-    "eth-block-tracker": "4.4.3",
     "is-plain-object": "4.1.1",
     "redux": "4.0.5",
     "redux-saga": "1.1.3",
