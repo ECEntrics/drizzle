@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import * as Action from './constants'
 
-var Web3 = require('web3')
+const Web3 = require('web3');
 
 /*
  * Initialization
@@ -47,7 +47,7 @@ export function * initializeWeb3 (options) {
       // Attempt fallback if no web3 injection.
       switch (options.fallback.type) {
         case 'ws':
-          var provider = new Web3.providers.WebsocketProvider(
+          const provider = new Web3.providers.WebsocketProvider(
             options.fallback.url
           )
           web3 = new Web3(provider)

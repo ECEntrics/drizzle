@@ -10,7 +10,7 @@ export function * getAccountBalances (action) {
   }
 
   try {
-    for (var i in accounts) {
+    for (let i in accounts) {
       var account = accounts[i]
       var accountBalance = yield call(web3.eth.getBalance, account)
 

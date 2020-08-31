@@ -1,10 +1,9 @@
-.DS_Store
-jest.config.js
-.travis.yml
-.eslintrc.js
-.babelrc
+# Jetbrains
+.idea
 
-node_modules
-test
-webpack
-.github
+# Git
+.gitattributes
+
+# Package managers
+yarn.lock
+*.tgz

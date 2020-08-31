@@ -1,6 +1,6 @@
 import { END, eventChannel } from 'redux-saga'
 import { call, put, take, takeEvery, takeLatest, all } from 'redux-saga/effects'
-import BlockTracker from 'eth-block-tracker-es5'
+import PollingBlockTracker from 'eth-block-tracker'
 import * as BlocksActions from './constants'
 import * as ContractActions from '../contracts/constants'
 
@@ -65,7 +65,7 @@ export function createBlockPollChannel ({
   syncAlways
 }) {
   return eventChannel(emit => {
-    const blockTracker = new BlockTracker({
+    const blockTracker = new PollingBlockTracker({
       provider: web3.currentProvider,
       pollingInterval: interval
     })
@@ -81,8 +81,8 @@ export function createBlockPollChannel ({
 
     const unsubscribe = () => {
       blockTracker.stop().catch(_ => {
-        // BlockTracker assumes there is an outstanding event subscription.
-        // However for our tests we start and stop a BlockTracker in succession
+        // PollingBlockTracker assumes there is an outstanding event subscription.
+        // However for our tests we start and stop a PollingBlockTracker in succession
         // that triggers an error.
       })
     }

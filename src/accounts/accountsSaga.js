@@ -1,4 +1,4 @@
-import { END, eventChannel } from 'redux-saga'
+import { eventChannel } from 'redux-saga'
 import { call, put, take, takeLatest } from 'redux-saga/effects'
 import { getAccountBalances } from '../accountBalances/accountBalancesSaga'
 import * as AccountsActions from './constants'
