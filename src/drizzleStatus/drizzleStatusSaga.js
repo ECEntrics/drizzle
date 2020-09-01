@@ -49,15 +49,6 @@ export function * initializeDrizzle (action) {
         }
 
         yield put({ type: BlocksActions.BLOCKS_LISTENING, drizzle, web3 })
-
-        // Accounts Polling
-        if ('accounts' in options.polls) {
-          yield put({
-            type: AccountsActions.ACCOUNTS_POLLING,
-            interval: options.polls.accounts,
-            web3
-          })
-        }
       }
     }
   } catch (error) {
