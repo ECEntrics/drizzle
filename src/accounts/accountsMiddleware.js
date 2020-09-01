@@ -10,7 +10,6 @@ export const accountsMiddleware = () => store => next => action => {
     else {
       store.dispatch(accountsListening());
       window.ethereum.on('accountsChanged', function (accounts) {
-        console.debug("Account changed")
         store.dispatch(accountsFetched(accounts));
       });
     }

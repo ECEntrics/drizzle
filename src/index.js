@@ -18,6 +18,7 @@ import web3Reducer from './web3/web3Reducer'
 // Middleware
 import drizzleMiddleware from './drizzle-middleware'
 import accountsMiddleware from './accounts/accountsMiddleware'
+import accountBalancesMiddleware from './accountBalances/accountBalancesMiddleware'
 
 // Sagas
 import accountsSaga from './accounts/accountsSaga'
@@ -39,7 +40,8 @@ const drizzleReducers = {
 
 const drizzleMiddlewares = [
   drizzleMiddleware,
-  accountsMiddleware
+  accountsMiddleware,
+  accountBalancesMiddleware
 ]
 
 const drizzleSagas = [

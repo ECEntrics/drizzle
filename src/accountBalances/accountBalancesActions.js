@@ -1,17 +1,8 @@
-const ACCOUNTS_FETCHING = 'ACCOUNTS_FETCHING'
+import { ACCOUNT_BALANCES_FETCHING } from './constants'
 
-export function accountsFetching (results) {
+export function accountBalancesFetching (web3) {
   return {
-    type: ACCOUNTS_FETCHING,
-    payload: results
-  }
-}
-
-const ACCOUNTS_FETCHED = 'ACCOUNTS_FETCHED'
-
-export function accountsFetched (results) {
-  return {
-    type: ACCOUNTS_FETCHED,
-    payload: results
+    type: ACCOUNT_BALANCES_FETCHING,
+    web3
   }
 }
