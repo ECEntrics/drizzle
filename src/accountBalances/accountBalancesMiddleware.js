@@ -1,4 +1,4 @@
-import { WEB3_INITIALIZED } from '../web3/constants'
+import { WEB3_INITIALIZED } from '../web3/web3Actions'
 import { accountBalancesFetching } from './accountBalancesActions'
 import { ACCOUNTS_FETCHED } from '../accounts/accountsActions'
 

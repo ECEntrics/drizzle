@@ -1,4 +1,4 @@
-import * as Action from './constants'
+import * as Action from './web3Actions'
 
 const initialState = {
   status: ''
@@ -33,7 +33,8 @@ const web3Reducer = (state = initialState, action) => {
     }
   }
 
-  if (action.type === Action.NETWORK_ID_FETCHED) {
+  if (action.type === Action.NETWORK_ID_FETCHED
+        || action.type === Action.NETWORK_ID_CHANGED) {
     return {
       ...state,
       networkId: action.networkId

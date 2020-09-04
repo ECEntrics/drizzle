@@ -1,12 +1,11 @@
-import { call, put } from 'redux-saga/effects'
-import * as Action from './constants'
+import { call, put, takeLatest } from 'redux-saga/effects'
+import * as Action from './web3Actions'
 
 const Web3 = require('web3');
 
 /*
  * Initialization
  */
-
 export function * initializeWeb3 (options) {
   try {
     let web3 = {}
@@ -35,7 +34,6 @@ export function * initializeWeb3 (options) {
       } catch (error) {
         console.error(error)
         yield put({ type: Action.WEB3_FAILED })
-        return
       }
     } else if (typeof window.web3 !== 'undefined') {
       // Checking if Web3 has been injected by the browser (Mist/MetaMask)
@@ -71,20 +69,26 @@ export function * initializeWeb3 (options) {
 }
 
 /*
- * Network ID
+ * Fetch Network ID
  */
-
 export function * getNetworkId ({ web3 }) {
   try {
-    const networkId = yield call(web3.eth.net.getId)
+    const networkId = yield call(web3.eth.net.getId);
 
-    yield put({ type: Action.NETWORK_ID_FETCHED, networkId })
+    yield put({ type: Action.NETWORK_ID_FETCHED, networkId });
 
     return networkId
   } catch (error) {
-    yield put({ type: Action.NETWORK_ID_FAILED, error })
+    yield put({ type: Action.NETWORK_ID_FAILED, error });
 
-    console.error('Error fetching network ID:')
-    console.error(error)
+    console.error('Error fetching network ID:');
+    console.error(error);
   }
 }
+
+function * web3Saga () {
+  yield takeLatest(Action.NETWORK_ID_CHANGED, getNetworkId);
+}
+
+export default web3Saga
+
