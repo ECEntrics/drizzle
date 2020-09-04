@@ -1,6 +1,6 @@
-import * as DrizzleActions from './drizzleStatus/constants'
-import * as AccountsActions from './accounts/constants'
+import * as DrizzleActions from './drizzleStatus/drizzleActions'
 import * as ContractActions from './contracts/constants'
+import { ACCOUNTS_FETCHED } from './accounts/accountsActions'
 
 export const drizzleMiddleware = drizzleInstance => store => next => action => {
   const { type } = action
@@ -10,7 +10,7 @@ export const drizzleMiddleware = drizzleInstance => store => next => action => {
   }
 
   if (
-    type === AccountsActions.ACCOUNTS_FETCHED &&
+    type === ACCOUNTS_FETCHED &&
     drizzleInstance &&
     drizzleInstance.contractList.length
   ) {

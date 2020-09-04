@@ -13,6 +13,7 @@ export function * initializeWeb3 (options) {
 
     if (options.customProvider) {
       yield put({ type: Action.WEB3_INITIALIZED, web3: options.customProvider })
+
       return options.customProvider
     }
 

@@ -1,29 +1,23 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
-
-import * as AccountsActions from './constants'
+import { call, put } from 'redux-saga/effects'
+import { ACCOUNTS_FAILED, ACCOUNTS_FETCHED, ACCOUNTS_FETCHING } from './accountsActions'
 
 /*
- * Fetch Accounts List
+ * Manually Fetch Accounts List
  */
 export function * getAccounts (action) {
   const web3 = action.web3
 
   try {
+    yield put({ type: ACCOUNTS_FETCHING });
     const accounts = yield call(web3.eth.getAccounts)
 
     if (!accounts)
       throw 'No accounts found!'
 
-    yield put({ type: AccountsActions.ACCOUNTS_FETCHED, accounts })
+    yield put({ type: ACCOUNTS_FETCHED, accounts })
   } catch (error) {
-    yield put({ type: AccountsActions.ACCOUNTS_FAILED, error })
+    yield put({ type: ACCOUNTS_FAILED, error })
     console.error('Error fetching accounts:')
     console.error(error)
   }
 }
-
-function * accountsSaga () {
-  yield takeLatest(AccountsActions.ACCOUNTS_FETCHING, getAccounts)
-}
-
-export default accountsSaga

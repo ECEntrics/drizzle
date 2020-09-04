@@ -8,10 +8,14 @@ export const accountsMiddleware = () => store => next => action => {
     if(!window.ethereum)
       console.warn('No Metamask detected, not subscribed to account changes!')
     else {
-      store.dispatch(accountsListening());
-      window.ethereum.on('accountsChanged', function (accounts) {
-        store.dispatch(accountsFetched(accounts));
+      const { web3 } = action;
+      window.ethereum.on('accountsChanged', accounts => {
+        // For some reason accounts here are returned with lowercase letters, so we need to patch them
+        let patchedAccounts = Array.from(accounts);
+        patchedAccounts.forEach((account, i) => patchedAccounts[i] = web3.utils.toChecksumAddress(account));
+        store.dispatch(accountsFetched(patchedAccounts));
       });
+      store.dispatch(accountsListening());
     }
   }
   return next(action)

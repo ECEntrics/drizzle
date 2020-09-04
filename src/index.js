@@ -2,8 +2,9 @@ import Drizzle from './Drizzle.js'
 import { generateStore } from './generateStore'
 import { generateContractsInitialState } from './contractStateUtils'
 
-// Events
+// Actions
 import * as EventActions from './contracts/constants'
+import * as AccountActions from './accounts/accountsActions'
 
 // Reducers
 import accountsReducer from './accounts/accountsReducer'
@@ -21,7 +22,6 @@ import accountsMiddleware from './accounts/accountsMiddleware'
 import accountBalancesMiddleware from './accountBalances/accountBalancesMiddleware'
 
 // Sagas
-import accountsSaga from './accounts/accountsSaga'
 import accountBalancesSaga from './accountBalances/accountBalancesSaga'
 import blocksSaga from './blocks/blocksSaga'
 import contractsSaga from './contracts/contractsSaga'
@@ -45,12 +45,16 @@ const drizzleMiddlewares = [
 ]
 
 const drizzleSagas = [
-  accountsSaga,
   accountBalancesSaga,
   blocksSaga,
   contractsSaga,
   drizzleStatusSaga
 ]
+
+const drizzleActions = {
+  AccountActions,
+  EventActions
+}
 
 export {
   Drizzle,
@@ -59,5 +63,5 @@ export {
   drizzleReducers,
   drizzleMiddlewares,
   drizzleSagas,
-  EventActions
+  drizzleActions
 }

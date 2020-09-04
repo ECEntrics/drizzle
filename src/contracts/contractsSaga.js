@@ -1,12 +1,11 @@
 import { END, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery } from 'redux-saga/effects'
 import * as ContractActions from './constants'
-import * as TransactionsActions from '../transactions/constants'
+import * as TransactionsActions from '../transactions/transactionsActions'
 
 /*
  * Events
  */
-
 export function createContractEventChannel ({
   contract,
   eventName,

@@ -1,27 +1,17 @@
-import * as AccountsActions from './constants'
+export const ACCOUNTS_FETCHING = 'ACCOUNTS_FETCHING'
+export const ACCOUNTS_FETCHED = 'ACCOUNTS_FETCHED'
+export const ACCOUNTS_FAILED = 'ACCOUNTS_FAILED'
+export const ACCOUNTS_LISTENING = 'ACCOUNTS_LISTENING'
 
-export function accountsFetching (results) {
+export function accountsFetched (accounts) {
   return {
-    type: AccountsActions.ACCOUNTS_FETCHING,
+    type: ACCOUNTS_FETCHED,
+    accounts
   }
 }
 
-export function accountsFetched (results) {
+export function accountsListening () {
   return {
-    type: AccountsActions.ACCOUNTS_FETCHED,
-    accounts: results
-  }
-}
-
-export function accountsListening (results) {
-  return {
-    type: AccountsActions.ACCOUNTS_LISTENING,
-  }
-}
-
-export function accountsFailed (error) {
-  return {
-    type: AccountsActions.ACCOUNTS_FAILED,
-    error
+    type: ACCOUNTS_LISTENING,
   }
 }

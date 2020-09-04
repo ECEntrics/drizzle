@@ -1,6 +1,6 @@
-import {WEB3_INITIALIZED} from '../web3/constants'
-import { ACCOUNTS_FETCHED } from '../accounts/constants'
+import { WEB3_INITIALIZED } from '../web3/constants'
 import { accountBalancesFetching } from './accountBalancesActions'
+import { ACCOUNTS_FETCHED } from '../accounts/accountsActions'
 
 export const accountBalancesMiddleware = web3 => store => next => action => {
   const { type } = action;

@@ -1,9 +1,9 @@
-import * as AccountBalancesActions from './constants'
+import { ACCOUNT_BALANCE_FETCHED } from './accountBalancesActions'
 
 const initialState = {}
 
 const accountBalancesReducer = (state = initialState, action) => {
-  if (action.type === AccountBalancesActions.ACCOUNT_BALANCE_FETCHED) {
+  if (action.type === ACCOUNT_BALANCE_FETCHED) {
     return {
       ...state,
       [action.account]: action.accountBalance

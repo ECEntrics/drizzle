@@ -4,9 +4,8 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { initializeWeb3, getNetworkId } from '../web3/web3Saga'
 import { getAccounts } from '../accounts/accountsSaga'
 import { getAccountBalances } from '../accountBalances/accountBalancesSaga'
-import * as DrizzleActions from './constants'
-import * as BlocksActions from '../blocks/constants'
-import * as AccountsActions from '../accounts/constants'
+import * as DrizzleActions from './drizzleActions'
+import * as BlocksActions from '../blocks/blockActions'
 
 import { NETWORK_IDS, NETWORK_MISMATCH } from '../web3/constants'
 
