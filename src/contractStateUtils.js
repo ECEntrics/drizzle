@@ -22,6 +22,7 @@ export const generateContractInitialState = contractConfig => {
   return {
     initialized: false,
     synced: false,
+    deployed: true,
     ...objectOfConstants
   }
 }

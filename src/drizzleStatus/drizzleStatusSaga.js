@@ -8,6 +8,8 @@ import * as DrizzleActions from './drizzleActions'
 import * as BlocksActions from '../blocks/blockActions'
 
 import { NETWORK_IDS, NETWORK_MISMATCH } from '../web3/web3Actions'
+import { CONTRACT_NOT_DEPLOYED } from '../contracts/constants'
+import { isContractDeployed } from '../contracts/contractsSaga'
 
 export function * initializeDrizzle (action) {
   try {
@@ -38,10 +40,14 @@ export function * initializeDrizzle (action) {
         for (let i = 0; i < options.contracts.length; i++) {
           const contractConfig = options.contracts[i]
           let events = []
-          const contractName = contractConfig.contractName
-
+          const contractName = contractConfig.contractName;
           if (contractName in options.events) {
             events = options.events[contractName]
+          }
+
+          if(!(yield call(isContractDeployed, { web3, contractConfig }))){
+            yield put({ type: CONTRACT_NOT_DEPLOYED, name: contractName })
+            throw `Contract ${contractName} not deployed on this network`
           }
 
           yield call([drizzle, drizzle.addContract], contractConfig, events)
