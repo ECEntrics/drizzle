@@ -1,13 +1,15 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 // Initialization Functions
-import { initializeWeb3, getNetworkId } from '../web3/web3Saga'
+import { getNetworkId, initializeWeb3 } from '../web3/web3Saga'
 import { getAccounts } from '../accounts/accountsSaga'
 import { getAccountBalances } from '../accountBalances/accountBalancesSaga'
 import * as DrizzleActions from './drizzleActions'
 import * as BlocksActions from '../blocks/blockActions'
 
-import { NETWORK_IDS, NETWORK_MISMATCH } from '../web3/constants'
+import { NETWORK_IDS, NETWORK_MISMATCH } from '../web3/web3Actions'
+import { CONTRACT_NOT_DEPLOYED } from '../contracts/constants'
+import { isContractDeployed } from '../contracts/contractsSaga'
 
 export function * initializeDrizzle (action) {
   try {
@@ -35,13 +37,17 @@ export function * initializeDrizzle (action) {
         yield call(getAccountBalances, { web3 })
 
         // Instantiate contracts passed through via options.
-        for (var i = 0; i < options.contracts.length; i++) {
-          var contractConfig = options.contracts[i]
-          var events = []
-          var contractName = contractConfig.contractName
-
+        for (let i = 0; i < options.contracts.length; i++) {
+          const contractConfig = options.contracts[i]
+          let events = []
+          const contractName = contractConfig.contractName;
           if (contractName in options.events) {
             events = options.events[contractName]
+          }
+
+          if(!(yield call(isContractDeployed, { web3, contractConfig }))){
+            yield put({ type: CONTRACT_NOT_DEPLOYED, name: contractName })
+            throw `Contract ${contractName} not deployed on this network`
           }
 
           yield call([drizzle, drizzle.addContract], contractConfig, events)

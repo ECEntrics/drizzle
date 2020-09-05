@@ -6,7 +6,7 @@ import * as ContractActions from './contracts/constants'
 import * as DrizzleActions from './drizzleStatus/drizzleActions'
 
 // Load as promise so that async Drizzle initialization can still resolve
-var isEnvReadyPromise = new Promise((resolve, reject) => {
+const isEnvReadyPromise = new Promise((resolve) => {
   const hasNavigator = typeof navigator !== 'undefined'
   const hasWindow = typeof window !== 'undefined'
   const hasDocument = typeof document !== 'undefined'
@@ -80,12 +80,6 @@ class Drizzle {
       this.store,
       events
     )
-
-    if (this.contracts[drizzleContract.contractName]) {
-      throw new Error(
-        `Contract already exists: ${drizzleContract.contractName}`
-      )
-    }
 
     this.store.dispatch({ type: ContractActions.CONTRACT_INITIALIZING, contractConfig })
 

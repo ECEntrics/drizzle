@@ -1,5 +1,5 @@
 import { END, eventChannel } from 'redux-saga'
-import { call, put, take, takeEvery, takeLatest, all } from 'redux-saga/effects'
+import { all, call, put, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import * as BlocksActions from './blockActions'
 
 /*

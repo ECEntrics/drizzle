@@ -29,6 +29,17 @@ const contractsReducer = (state = initialState, action) => {
     }
   }
 
+  // Contract not found on the current network
+  if (action.type === ContractActions.CONTRACT_NOT_DEPLOYED) {
+    return {
+      ...state,
+      [action.name]: {
+        ...state[action.name],
+        deployed: false
+      }
+    }
+  }
+
   if (action.type === ContractActions.DELETE_CONTRACT) {
     const { [action.contractName]: omitted, ...rest } = state
     return rest

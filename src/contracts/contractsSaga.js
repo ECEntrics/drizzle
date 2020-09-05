@@ -199,7 +199,7 @@ function * callCallContractFn ({
   } catch (error) {
     console.error(error)
 
-    var errorArgs = {
+    const errorArgs = {
       name: contract.contractName,
       variable: contract.abi[fnIndex].name,
       argsHash: argsHash,
@@ -230,8 +230,8 @@ function * callSyncContract (action) {
   delete contractFnsState.events
 
   // Iterate over functions and hashes
-  for (var fnName in contractFnsState) {
-    for (var argsHash in contractFnsState[fnName]) {
+  for (let fnName in contractFnsState) {
+    for (let argsHash in contractFnsState[fnName]) {
       const fnIndex = contractFnsState[fnName][argsHash].fnIndex
       const args = contractFnsState[fnName][argsHash].args
 
@@ -269,6 +269,18 @@ function isSendOrCallOptions (options) {
   if ('value' in options) return true
 
   return false
+}
+
+export function * isContractDeployed ({ web3, contractConfig }) {
+  const networkId = yield call(web3.eth.net.getId);
+  if(contractConfig.networks[networkId]){
+    const contractAddress = contractConfig.networks[networkId].address;
+
+    const fetchedByteCode = yield call(web3.eth.getCode, contractAddress);
+    if(fetchedByteCode === contractConfig.deployedBytecode)
+      return true;
+  }
+  return false;
 }
 
 function * contractsSaga () {
