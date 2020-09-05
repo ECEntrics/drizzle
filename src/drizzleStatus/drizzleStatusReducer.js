@@ -1,4 +1,4 @@
-import * as DrizzleActions from './constants'
+import * as DrizzleActions from './drizzleActions'
 
 const initialState = {
   initialized: false

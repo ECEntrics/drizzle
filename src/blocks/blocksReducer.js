@@ -1,4 +1,4 @@
-import * as BlocksActions from './constants'
+import * as BlocksActions from './blockActions'
 
 const initialState = {}
 

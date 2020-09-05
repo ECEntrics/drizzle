@@ -1,6 +1,7 @@
 import * as ContractActions from './contracts/constants'
-import * as TransactionsActions from './transactions/constants'
+import * as TransactionsActions from './transactions/transactionsActions'
 import { isGetterFunction, isSetterFunction } from './contractStateUtils'
+
 class DrizzleContract {
   constructor (
     web3Contract,

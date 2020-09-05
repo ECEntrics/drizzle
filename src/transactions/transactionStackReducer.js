@@ -1,4 +1,4 @@
-import * as TransactionsActions from './constants'
+import * as TransactionsActions from './transactionsActions'
 
 const initialState = []
 

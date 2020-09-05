@@ -2,8 +2,9 @@ import Drizzle from './Drizzle.js'
 import { generateStore } from './generateStore'
 import { generateContractsInitialState } from './contractStateUtils'
 
-// Events
+// Actions
 import * as EventActions from './contracts/constants'
+import * as AccountActions from './accounts/accountsActions'
 
 // Reducers
 import accountsReducer from './accounts/accountsReducer'
@@ -14,6 +15,17 @@ import drizzleStatusReducer from './drizzleStatus/drizzleStatusReducer'
 import transactionsReducer from './transactions/transactionsReducer'
 import transactionStackReducer from './transactions/transactionStackReducer'
 import web3Reducer from './web3/web3Reducer'
+
+// Middleware
+import drizzleMiddleware from './drizzle-middleware'
+import accountsMiddleware from './accounts/accountsMiddleware'
+import accountBalancesMiddleware from './accountBalances/accountBalancesMiddleware'
+
+// Sagas
+import accountBalancesSaga from './accountBalances/accountBalancesSaga'
+import blocksSaga from './blocks/blocksSaga'
+import contractsSaga from './contracts/contractsSaga'
+import drizzleStatusSaga from './drizzleStatus/drizzleStatusSaga'
 
 const drizzleReducers = {
   accounts: accountsReducer,
@@ -26,26 +38,30 @@ const drizzleReducers = {
   web3: web3Reducer
 }
 
-// Sagas
-import accountsSaga from './accounts/accountsSaga'
-import accountBalancesSaga from './accountBalances/accountBalancesSaga'
-import blocksSaga from './blocks/blocksSaga'
-import contractsSaga from './contracts/contractsSaga'
-import drizzleStatusSaga from './drizzleStatus/drizzleStatusSaga'
+const drizzleMiddlewares = [
+  drizzleMiddleware,
+  accountsMiddleware,
+  accountBalancesMiddleware
+]
 
 const drizzleSagas = [
-  accountsSaga,
   accountBalancesSaga,
   blocksSaga,
   contractsSaga,
   drizzleStatusSaga
 ]
 
+const drizzleActions = {
+  AccountActions,
+  EventActions
+}
+
 export {
   Drizzle,
   generateContractsInitialState,
   generateStore,
   drizzleReducers,
+  drizzleMiddlewares,
   drizzleSagas,
-  EventActions
+  drizzleActions
 }

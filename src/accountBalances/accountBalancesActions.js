@@ -1,17 +1,11 @@
-const ACCOUNTS_FETCHING = 'ACCOUNTS_FETCHING'
+export const ACCOUNT_BALANCE_FETCHED = 'ACCOUNT_BALANCE_FETCHED'
+export const ACCOUNT_BALANCES_FETCHED = 'ACCOUNT_BALANCES_FETCHED'
+export const ACCOUNT_BALANCES_FETCHING = 'ACCOUNT_BALANCES_FETCHING'
+export const ACCOUNT_BALANCES_FAILED = 'ACCOUNT_BALANCES_FAILED'
 
-export function accountsFetching (results) {
+export function accountBalancesFetching (web3) {
   return {
-    type: ACCOUNTS_FETCHING,
-    payload: results
-  }
-}
-
-const ACCOUNTS_FETCHED = 'ACCOUNTS_FETCHED'
-
-export function accountsFetched (results) {
-  return {
-    type: ACCOUNTS_FETCHED,
-    payload: results
+    type: ACCOUNT_BALANCES_FETCHING,
+    web3
   }
 }
