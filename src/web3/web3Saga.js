@@ -10,30 +10,27 @@ export function * initializeWeb3 (options) {
   try {
     let web3 = {}
 
-    if (options.customProvider) {
-      yield put({ type: Action.WEB3_INITIALIZED, web3: options.customProvider })
-
-      return options.customProvider
-    }
-
     if (window.ethereum) {
       const { ethereum } = window
-      web3 = new Web3(ethereum)
+      web3 = options.customProvider || new Web3(ethereum);
       try {
-        // ethereum.enable() will return the selected account
-        // unless user opts out and then it will return undefined
-        const selectedAccount = yield call([ethereum, 'enable'])
+        yield call([ethereum, 'request'], { method: 'eth_requestAccounts' })
 
         yield put({ type: Action.WEB3_INITIALIZED, web3 })
 
-        if (!selectedAccount) {
-          yield put({ type: Action.WEB3_USER_DENIED })
-          return
-        }
         return web3
       } catch (error) {
-        console.error(error)
-        yield put({ type: Action.WEB3_FAILED })
+        console.error(error);
+        if(error.code === 4001){
+          console.warn("User rejected MetaMask permission request");
+          yield put({ type: Action.WEB3_USER_DENIED });
+          if(options.retryPermissionDialog)
+            return yield call(initializeWeb3, options);  // User rejected permission dialog, let's retry
+        }
+        else if (error.code === -32002)
+          console.warn('Please accept the pending MetaMask permission request');
+
+        yield put({ type: Action.WEB3_FAILED, error });
       }
     } else if (typeof window.web3 !== 'undefined') {
       // Checking if Web3 has been injected by the browser (Mist/MetaMask)
