@@ -8,9 +8,11 @@ export const web3Middleware = web3 => store => next => action => {
       console.warn('No Metamask detected, not subscribed to network changes!')
     else {
       web3 = action.web3;
-      window.ethereum.on('networkChanged', () => {
-        // We could have listened to 'networkChanged' but it is deprecated (EIP-1193)
-        store.dispatch(networkIdChanged(web3));
+      window.ethereum.on('networkChanged', (networkId) => {
+        // Warning: 'networkChanged' is deprecated (EIP-1193)
+        const storedNetworkId = store.getState().web3.networkId;
+        if(storedNetworkId && networkId !== storedNetworkId)
+          store.dispatch(networkIdChanged(web3, networkId));
       });
     }
   }

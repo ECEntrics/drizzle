@@ -274,7 +274,7 @@ function isSendOrCallOptions (options) {
 }
 
 export function * isContractDeployed ({ web3, contractConfig }) {
-  const networkId = yield call(getNetworkId, { web3 })
+  const networkId = yield call(web3.eth.net.getId);
   if(contractConfig.networks[networkId]){
     const contractAddress = contractConfig.networks[networkId].address;
 

@@ -85,10 +85,3 @@ export function * getNetworkId ({ web3 }) {
     console.error(error);
   }
 }
-
-function * web3Saga () {
-  yield takeLatest(Action.NETWORK_ID_CHANGED, getNetworkId);
-}
-
-export default web3Saga
-

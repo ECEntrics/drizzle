@@ -7,7 +7,7 @@ import { getAccountBalances } from '../accountBalances/accountBalancesSaga'
 import * as DrizzleActions from './drizzleActions'
 import * as BlocksActions from '../blocks/blockActions'
 
-import { NETWORK_IDS, NETWORK_MISMATCH } from '../web3/web3Actions'
+import { NETWORK_ID_CHANGED, NETWORK_IDS, NETWORK_MISMATCH } from '../web3/web3Actions'
 import { CONTRACT_NOT_DEPLOYED } from '../contracts/constants'
 import { isContractDeployed } from '../contracts/contractsSaga'
 
