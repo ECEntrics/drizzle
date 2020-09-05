@@ -3,7 +3,6 @@ export const WEB3_INITIALIZED = 'WEB3_INITIALIZED'
 export const WEB3_FAILED = 'WEB3_FAILED'
 export const WEB3_USER_DENIED = 'WEB3_USER_DENIED'
 
-export const NETWORK_ID_FETCHING = 'NETWORK_ID_FETCHING'
 export const NETWORK_ID_FETCHED = 'NETWORK_ID_FETCHED'
 export const NETWORK_ID_CHANGED = 'NETWORK_ID_CHANGED'
 export const NETWORK_ID_FAILED = 'NETWORK_ID_FAILED'
@@ -21,7 +20,6 @@ export const NETWORK_IDS = {
 export function networkIdChanged (web3, networkId) {
     return {
         type: NETWORK_ID_CHANGED,
-        web3,
         networkId
     }
 }

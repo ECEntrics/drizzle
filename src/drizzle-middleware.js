@@ -1,21 +1,12 @@
 import * as DrizzleActions from './drizzleStatus/drizzleActions'
 import * as ContractActions from './contracts/constants'
 import { ACCOUNTS_FETCHED } from './accounts/accountsActions'
-import { NETWORK_ID_CHANGED } from './web3/web3Actions'
 
 export const drizzleMiddleware = drizzleInstance => store => next => action => {
   const { type } = action
 
   if (type === DrizzleActions.DRIZZLE_INITIALIZING) {
     drizzleInstance = action.drizzle
-  }
-
-  if (type === NETWORK_ID_CHANGED) {
-    store.dispatch({
-      type: DrizzleActions.DRIZZLE_INITIALIZING,
-      drizzle: drizzleInstance,
-      options: drizzleInstance.options
-    })
   }
 
   if (

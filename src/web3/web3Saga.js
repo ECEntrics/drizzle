@@ -14,7 +14,7 @@ export function * initializeWeb3 (options) {
       const { ethereum } = window
       web3 = options.customProvider || new Web3(ethereum);
       try {
-        yield call([ethereum, 'request'], { method: 'eth_requestAccounts' })
+        yield call([ethereum, 'request'], { method: 'eth_requestAccounts' });
 
         yield put({ type: Action.WEB3_INITIALIZED, web3 })
 
