@@ -1,13 +1,13 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 // Initialization Functions
-import { initializeWeb3, getNetworkId } from '../web3/web3Saga'
+import { getNetworkId, initializeWeb3 } from '../web3/web3Saga'
 import { getAccounts } from '../accounts/accountsSaga'
 import { getAccountBalances } from '../accountBalances/accountBalancesSaga'
 import * as DrizzleActions from './drizzleActions'
 import * as BlocksActions from '../blocks/blockActions'
 
-import { NETWORK_ID_CHANGED, NETWORK_IDS, NETWORK_MISMATCH } from '../web3/web3Actions'
+import { NETWORK_IDS, NETWORK_MISMATCH } from '../web3/web3Actions'
 import { CONTRACT_NOT_DEPLOYED } from '../contracts/constants'
 import { isContractDeployed } from '../contracts/contractsSaga'
 

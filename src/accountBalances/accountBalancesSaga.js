@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import {
-  ACCOUNT_BALANCES_FAILED,
   ACCOUNT_BALANCE_FETCHED,
+  ACCOUNT_BALANCES_FAILED,
   ACCOUNT_BALANCES_FETCHED,
   ACCOUNT_BALANCES_FETCHING
 } from './accountBalancesActions'

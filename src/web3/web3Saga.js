@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import * as Action from './web3Actions'
 
 const Web3 = require('web3');

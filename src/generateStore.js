@@ -1,5 +1,5 @@
 import { all, fork } from 'redux-saga/effects'
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import drizzleSagas from './rootSaga'
 import drizzleReducers from './reducer'

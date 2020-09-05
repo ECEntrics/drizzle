@@ -2,8 +2,6 @@ import { END, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery } from 'redux-saga/effects'
 import * as ContractActions from './constants'
 import * as TransactionsActions from '../transactions/transactionsActions'
-import { ACCOUNTS_FAILED, ACCOUNTS_FETCHED, ACCOUNTS_FETCHING } from '../accounts/accountsActions'
-import { getNetworkId } from '../web3/web3Saga'
 
 /*
  * Events
