@@ -81,6 +81,12 @@ class Drizzle {
       events
     )
 
+    if (this.contracts[drizzleContract.contractName]) {
+      throw new Error(
+        `Contract already exists: ${drizzleContract.contractName}`
+      )
+    }
+
     this.store.dispatch({ type: ContractActions.CONTRACT_INITIALIZING, contractConfig })
 
     this.contracts[drizzleContract.contractName] = drizzleContract
