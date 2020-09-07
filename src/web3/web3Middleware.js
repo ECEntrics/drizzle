@@ -1,18 +1,18 @@
-import { networkIdChanged, WEB3_INITIALIZED } from './web3Actions'
+import { networkChanged, networkInfoFetching, WEB3_INITIALIZED } from './web3Actions'
 
-export const web3Middleware = () => store => next => action => {
+export const web3Middleware = web3 => store => next => action => {
   const { type } = action
 
   if (type === WEB3_INITIALIZED) {
     if(!window.ethereum)
       console.warn('No Metamask detected, not subscribed to network changes!')
     else {
-      window.ethereum.on('networkChanged', (networkId) => {
-        // Warning: 'networkChanged' is deprecated (EIP-1193)
-        const storedNetworkId = store.getState().web3.networkId;
-        if(storedNetworkId && (networkId !== storedNetworkId)){
-          store.dispatch(networkIdChanged(networkId));  // Just to be typical
-          window.location.reload();
+      web3 = action.web3;
+      window.ethereum.on('chainChanged', (chainId) => {
+        const storedNetworkId = store.getState().web3.chainId;
+        if(storedNetworkId && (chainId !== storedNetworkId)){
+          store.dispatch(networkChanged());
+          store.dispatch(networkInfoFetching(web3));
         }
       });
     }
@@ -20,5 +20,5 @@ export const web3Middleware = () => store => next => action => {
   return next(action)
 }
 
-const initializedMiddleware = web3Middleware()
+const initializedMiddleware = web3Middleware(undefined)
 export default initializedMiddleware

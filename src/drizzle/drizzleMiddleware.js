@@ -1,6 +1,7 @@
-import * as DrizzleActions from './drizzleStatus/drizzleActions'
-import * as ContractActions from './contracts/constants'
-import { ACCOUNTS_FETCHED } from './accounts/accountsActions'
+import * as DrizzleActions from './drizzleActions'
+import * as ContractActions from '../contracts/constants'
+import { ACCOUNTS_CHANGED, ACCOUNTS_FETCHED } from '../accounts/accountsActions'
+import { WEB3_NETWORK_CHANGED } from '../web3/web3Actions'
 
 export const drizzleMiddleware = drizzleInstance => store => next => action => {
   const { type } = action
@@ -8,6 +9,23 @@ export const drizzleMiddleware = drizzleInstance => store => next => action => {
   if (type === DrizzleActions.DRIZZLE_INITIALIZING) {
     drizzleInstance = action.drizzle
   }
+
+  // If network changes, drizzle should reinitialize
+  if (type === WEB3_NETWORK_CHANGED) {
+    // Hard reinitialization
+    if(drizzleInstance.options.reloadWindowOnNetworkChange)
+      window.location.reload();
+    else{ // Soft reinitialization
+      store.dispatch({
+        type: DrizzleActions.DRIZZLE_INITIALIZING,
+        drizzle: drizzleInstance,
+        options: drizzleInstance.options
+      })
+    }
+  }
+
+  if (type === ACCOUNTS_CHANGED && drizzleInstance.options.reloadWindowOnAccountChange)
+      window.location.reload();
 
   if (
     type === ACCOUNTS_FETCHED &&
@@ -40,8 +58,8 @@ export const drizzleMiddleware = drizzleInstance => store => next => action => {
       }
       store.dispatch(notificationAction)
 
-      // Don't propogate current action
-      return
+      // Don't propagate current action
+      return;
     }
   }
   return next(action)

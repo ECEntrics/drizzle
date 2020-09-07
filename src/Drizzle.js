@@ -3,7 +3,7 @@ import defaultOptions from './defaultOptions'
 import merge from './mergeOptions'
 import DrizzleContract from './DrizzleContract'
 import * as ContractActions from './contracts/constants'
-import * as DrizzleActions from './drizzleStatus/drizzleActions'
+import * as DrizzleActions from './drizzle/drizzleActions'
 
 // Load as promise so that async Drizzle initialization can still resolve
 const isEnvReadyPromise = new Promise((resolve) => {
@@ -81,11 +81,8 @@ class Drizzle {
       events
     )
 
-    if (this.contracts[drizzleContract.contractName]) {
-      throw new Error(
-        `Contract already exists: ${drizzleContract.contractName}`
-      )
-    }
+    if (this.contracts[drizzleContract.contractName])
+        console.warn(`Adding an already existing contract: ${drizzleContract.contractName}.\nIgnore this if upon drizzle reinitialization.`);
 
     this.store.dispatch({ type: ContractActions.CONTRACT_INITIALIZING, contractConfig })
 

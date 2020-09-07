@@ -16,13 +16,13 @@ export function createContractEventChannel ({
   return eventChannel(emit => {
     const eventListener = contract.events[eventName](eventOptions)
       .on('data', event => {
-        emit({ type: ContractActions.EVENT_FIRED, name, event })
+        emit({ type: ContractActions.CONTRACT_EVENT_FIRED, name, event })
       })
       .on('changed', event => {
-        emit({ type: ContractActions.EVENT_CHANGED, name, event })
+        emit({ type: ContractActions.CONTRACT_EVENT_CHANGED, name, event })
       })
       .on('error', error => {
-        emit({ type: ContractActions.EVENT_ERROR, name, error })
+        emit({ type: ContractActions.CONTRACT_EVENT_ERROR, name, error })
         emit(END)
       })
 
@@ -287,7 +287,7 @@ function * contractsSaga () {
   yield takeEvery(ContractActions.SEND_CONTRACT_TX, callSendContractTx)
   yield takeEvery(ContractActions.CALL_CONTRACT_FN, callCallContractFn)
   yield takeEvery(ContractActions.CONTRACT_SYNCING, callSyncContract)
-  yield takeEvery(ContractActions.LISTEN_FOR_EVENT, callListenForContractEvent)
+  yield takeEvery(ContractActions.CONTRACT_EVENT_LISTEN, callListenForContractEvent)
 }
 
 export default contractsSaga

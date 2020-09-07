@@ -9,6 +9,8 @@ const defaultOptions = {
   contracts: [],
   events: {},
   syncAlways: false,
+  reloadWindowOnNetworkChange: false,
+  reloadWindowOnAccountChange: false,
   networkWhitelist: []
 }
 

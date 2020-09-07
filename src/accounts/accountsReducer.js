@@ -1,4 +1,4 @@
-import { ACCOUNTS_FETCHED, ACCOUNTS_FETCHING } from './accountsActions'
+import { ACCOUNTS_CHANGED, ACCOUNTS_FETCHED, ACCOUNTS_FETCHING } from './accountsActions'
 
 const initialState = {}
 
@@ -7,7 +7,7 @@ const accountsReducer = (state = initialState, action) => {
     return state
   }
 
-  if (action.type === ACCOUNTS_FETCHED) {
+  if (action.type === ACCOUNTS_FETCHED || action.type === ACCOUNTS_CHANGED) {
     return Object.assign({}, state, action.accounts)
   }
 

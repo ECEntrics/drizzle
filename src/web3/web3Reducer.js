@@ -33,21 +33,22 @@ const web3Reducer = (state = initialState, action) => {
     }
   }
 
-  if (action.type === Action.NETWORK_ID_FETCHED
-        || action.type === Action.NETWORK_ID_CHANGED) {
+  if (action.type === Action.WEB3_NETWORK_FETCHED) {
     return {
       ...state,
-      networkId: action.networkId
+      networkId: action.networkInfo.networkId,
+      chainId: action.networkInfo.chainId,
+      nodeInfo: action.networkInfo.nodeInfo
     }
   }
 
-  if (action.type === Action.NETWORK_ID_FAILED) {
+  if (action.type === Action.WEB3_NETWORK_FAILED) {
     return {
       ...state,
       networkId: action.networkId
     }
   }
-  if (action.type === Action.NETWORK_MISMATCH) {
+  if (action.type === Action.WEB3_NETWORK_MISMATCH) {
     return {
       ...state,
       networkMismatch: true

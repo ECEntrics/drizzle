@@ -9,10 +9,10 @@ export function * getAccounts (action) {
 
   try {
     yield put({ type: ACCOUNTS_FETCHING });
-    const accounts = yield call(web3.eth.getAccounts)
+    const accounts = yield call(web3.eth.getAccounts);
 
-    if (!accounts)
-      throw 'No accounts found!'
+    if (!accounts.length)
+      throw new Error('No accounts found!');
 
     yield put({ type: ACCOUNTS_FETCHED, accounts })
   } catch (error) {
