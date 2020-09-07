@@ -7,23 +7,13 @@ import * as EventActions from './contracts/constants'
 import * as AccountActions from './accounts/accountsActions'
 
 // Reducers
-import drizzleReducers from './reducer'
+import drizzleReducers from './root/rootReducer'
 
-// Middleware
-import drizzleMiddleware from './drizzle-middleware'
-import accountsMiddleware from './accounts/accountsMiddleware'
-import accountBalancesMiddleware from './accountBalances/accountBalancesMiddleware'
-import web3Middleware from './web3/web3Middleware'
+// Middlewares
+import drizzleMiddlewares from './root/rootMiddleware'
 
 // Sagas
-import drizzleSagas from './rootSaga'
-
-const drizzleMiddlewares = [
-  drizzleMiddleware,
-  accountsMiddleware,
-  accountBalancesMiddleware,
-  web3Middleware
-]
+import drizzleSagas from './root/rootSaga'
 
 const drizzleActions = {
   account: AccountActions,

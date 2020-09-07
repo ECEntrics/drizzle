@@ -3,10 +3,11 @@ export const WEB3_INITIALIZED = 'WEB3_INITIALIZED'
 export const WEB3_FAILED = 'WEB3_FAILED'
 export const WEB3_USER_DENIED = 'WEB3_USER_DENIED'
 
-export const NETWORK_ID_FETCHED = 'NETWORK_ID_FETCHED'
-export const NETWORK_ID_CHANGED = 'NETWORK_ID_CHANGED'
-export const NETWORK_ID_FAILED = 'NETWORK_ID_FAILED'
-export const NETWORK_MISMATCH = 'NETWORK_MISMATCH'
+export const WEB3_NETWORK_FETCHING = 'WEB3_NETWORK_FETCHING'
+export const WEB3_NETWORK_FETCHED = 'WEB3_NETWORK_FETCHED'
+export const WEB3_NETWORK_CHANGED = 'WEB3_NETWORK_CHANGED'
+export const WEB3_NETWORK_FAILED = 'WEB3_NETWORK_FAILED'
+export const WEB3_NETWORK_MISMATCH = 'WEB3_NETWORK_MISMATCH'
 
 export const NETWORK_IDS = {
     mainnet: 1,
@@ -17,9 +18,15 @@ export const NETWORK_IDS = {
     ganache: 5777
 }
 
-export function networkIdChanged (web3, networkId) {
+export function networkInfoFetching (web3) {
     return {
-        type: NETWORK_ID_CHANGED,
-        networkId
+        type: WEB3_NETWORK_FETCHING,
+        web3
+    }
+}
+
+export function networkChanged () {
+    return {
+        type: WEB3_NETWORK_CHANGED
     }
 }

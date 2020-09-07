@@ -38,14 +38,14 @@ class DrizzleContract {
 
         if (typeof event === 'object') {
           store.dispatch({
-            type: ContractActions.LISTEN_FOR_EVENT,
+            type: ContractActions.CONTRACT_EVENT_LISTEN,
             contract: this,
             eventName: event.eventName,
             eventOptions: event.eventOptions
           })
         } else {
           store.dispatch({
-            type: ContractActions.LISTEN_FOR_EVENT,
+            type: ContractActions.CONTRACT_EVENT_LISTEN,
             contract: this,
             eventName: event
           })

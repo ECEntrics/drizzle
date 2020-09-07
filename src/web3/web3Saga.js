@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import * as Action from './web3Actions'
 
 const Web3 = require('web3');
@@ -66,19 +66,30 @@ export function * initializeWeb3 (options) {
 }
 
 /*
- * Fetch Network ID
+ * Fetch Network Information
  */
-export function * getNetworkId ({ web3 }) {
+export function * getNetworkInfo ({ web3 }) {
   try {
     const networkId = yield call(web3.eth.net.getId);
+    const chainId = yield call(web3.eth.getChainId);
+    const nodeInfo = yield call(web3.eth.getNodeInfo);
 
-    yield put({ type: Action.NETWORK_ID_FETCHED, networkId });
+    const networkInfo = { networkId, chainId, nodeInfo };
 
-    return networkId
+    yield put({ type: Action.WEB3_NETWORK_FETCHED, networkInfo });
+
+    return networkInfo;
   } catch (error) {
-    yield put({ type: Action.NETWORK_ID_FAILED, error });
+    yield put({ type: Action.WEB3_NETWORK_FAILED, error });
 
-    console.error('Error fetching network ID:');
+    console.error('Error fetching network information:');
     console.error(error);
   }
 }
+
+function * web3Saga () {
+  yield takeLatest(Action.WEB3_NETWORK_FETCHING, getNetworkInfo);
+}
+
+export default web3Saga;
+
