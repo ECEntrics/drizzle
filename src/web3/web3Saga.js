@@ -8,6 +8,7 @@ const Web3 = require('web3');
  */
 export function * initializeWeb3 (options) {
   try {
+    yield put({ type: Action.WEB3_INITIALIZING });
     let web3 = {}
 
     if (window.ethereum) {

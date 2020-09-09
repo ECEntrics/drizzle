@@ -1,5 +1,5 @@
-import { networkIdChanged, WEB3_INITIALIZED } from '../web3/web3Actions'
-import { accountsChanged, accountsFetched, accountsListening } from './accountsActions'
+import { WEB3_INITIALIZED } from '../web3/web3Actions'
+import { accountsChanged, accountsListening } from './accountsActions'
 
 export const accountsMiddleware = web3 => store => next => action => {
   const { type } = action
@@ -15,7 +15,8 @@ export const accountsMiddleware = web3 => store => next => action => {
         patchedAccounts.forEach((account, i) => patchedAccounts[i] = web3.utils.toChecksumAddress(account));
 
         const storedAccounts = store.getState().accounts;
-        if(storedAccounts[0] && (patchedAccounts[0] !== storedAccounts[0]))
+        const accountsFailed = store.getState().web3.accountsFailed;
+        if((storedAccounts[0] || accountsFailed) && (patchedAccounts[0] !== storedAccounts[0]))
           store.dispatch(accountsChanged(patchedAccounts));
       });
       store.dispatch(accountsListening());

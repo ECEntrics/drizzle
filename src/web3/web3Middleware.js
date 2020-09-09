@@ -1,4 +1,4 @@
-import { networkChanged, networkInfoFetching, WEB3_INITIALIZED } from './web3Actions'
+import { networkChanged, networkInfoFetching, networkListening, WEB3_INITIALIZED } from './web3Actions'
 
 export const web3Middleware = web3 => store => next => action => {
   const { type } = action
@@ -9,12 +9,14 @@ export const web3Middleware = web3 => store => next => action => {
     else {
       web3 = action.web3;
       window.ethereum.on('chainChanged', (chainId) => {
-        const storedNetworkId = store.getState().web3.chainId;
-        if(storedNetworkId && (chainId !== storedNetworkId)){
+        const storedChainId = store.getState().web3.chainId;
+        const networkFailed = store.getState().web3.networkFailed;
+        if((storedChainId || networkFailed) && (chainId !== storedChainId)){
           store.dispatch(networkChanged());
           store.dispatch(networkInfoFetching(web3));
         }
       });
+      store.dispatch(networkListening());
     }
   }
   return next(action)

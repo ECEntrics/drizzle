@@ -1,7 +1,8 @@
 import * as Action from './web3Actions'
+import { ACCOUNTS_FAILED } from '../accounts/accountsActions'
 
 const initialState = {
-  status: ''
+  status: 'initializing'
 }
 
 const web3Reducer = (state = initialState, action) => {
@@ -38,20 +39,29 @@ const web3Reducer = (state = initialState, action) => {
       ...state,
       networkId: action.networkInfo.networkId,
       chainId: action.networkInfo.chainId,
-      nodeInfo: action.networkInfo.nodeInfo
+      nodeInfo: action.networkInfo.nodeInfo,
+      networkFailed: false,
+      networkMismatch: false
     }
   }
 
   if (action.type === Action.WEB3_NETWORK_FAILED) {
     return {
       ...state,
-      networkId: action.networkId
+      networkFailed: true
     }
   }
   if (action.type === Action.WEB3_NETWORK_MISMATCH) {
     return {
       ...state,
       networkMismatch: true
+    }
+  }
+
+  if (action.type === ACCOUNTS_FAILED) {
+    return {
+      ...state,
+      accountsFailed: true
     }
   }
 

@@ -3,8 +3,9 @@ import { generateStore } from './generateStore'
 import { generateContractsInitialState } from './contractStateUtils'
 
 // Actions
-import * as EventActions from './contracts/constants'
 import * as AccountActions from './accounts/accountsActions'
+import * as DrizzleActions from './drizzle/drizzleActions'
+import * as EventActions from './contracts/constants'
 
 // Reducers
 import drizzleReducers from './root/rootReducer'
@@ -17,6 +18,7 @@ import drizzleSagas from './root/rootSaga'
 
 const drizzleActions = {
   account: AccountActions,
+  drizzle: DrizzleActions,
   event: EventActions
 }
 
