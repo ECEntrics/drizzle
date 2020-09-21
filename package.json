@@ -7,10 +7,10 @@
   "main": "src/index.js",
   "repository": "github:Ezerous/drizzle",
   "dependencies": {
-    "deepmerge": "4.2.2",
-    "is-plain-object": "4.1.1",
-    "redux": "4.0.5",
-    "redux-saga": "1.1.3",
-    "web3": "1.2.11"
+    "deepmerge": "~4.2.2",
+    "is-plain-object": "~5.0.0",
+    "redux": "~4.0.5",
+    "redux-saga": "~1.1.3",
+    "web3": "~1.3.0"
   }
 }
