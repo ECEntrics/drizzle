@@ -7,6 +7,7 @@ export const WEB3_NETWORK_FETCHING = 'WEB3_NETWORK_FETCHING'
 export const WEB3_NETWORK_FETCHED = 'WEB3_NETWORK_FETCHED'
 export const WEB3_NETWORK_CHANGED = 'WEB3_NETWORK_CHANGED'
 export const WEB3_NETWORK_FAILED = 'WEB3_NETWORK_FAILED'
+export const WEB3_NETWORK_LISTENING = 'WEB3_NETWORK_LISTENING'
 export const WEB3_NETWORK_MISMATCH = 'WEB3_NETWORK_MISMATCH'
 
 export const NETWORK_IDS = {
@@ -28,5 +29,11 @@ export function networkInfoFetching (web3) {
 export function networkChanged () {
     return {
         type: WEB3_NETWORK_CHANGED
+    }
+}
+
+export function networkListening () {
+    return {
+        type: WEB3_NETWORK_LISTENING
     }
 }

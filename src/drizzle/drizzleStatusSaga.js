@@ -54,17 +54,14 @@ export function * initializeDrizzle (action) {
         }
 
         yield put({ type: BlocksActions.BLOCKS_LISTENING, drizzle, web3 })
+        yield put({ type: DrizzleActions.DRIZZLE_INITIALIZED, drizzle })
       }
     }
   } catch (error) {
     yield put({ type: DrizzleActions.DRIZZLE_FAILED, error })
     console.error('Error initializing Drizzle:')
     console.error(error)
-
-    return
   }
-
-  yield put({ type: DrizzleActions.DRIZZLE_INITIALIZED })
 }
 
 function * drizzleStatusSaga () {
