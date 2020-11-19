@@ -33,31 +33,28 @@ export function * initializeWeb3 (options) {
 
         yield put({ type: Action.WEB3_FAILED, error });
       }
-    } else if (typeof window.web3 !== 'undefined') {
-      // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-      // Use Mist/MetaMask's provider.
-      web3 = new Web3(window.web3.currentProvider)
-      yield put({ type: Action.WEB3_INITIALIZED, web3 })
-
-      return web3
+    } else if (options.customProvider) {
+        web3 = options.customProvider
+        yield put({ type: Action.WEB3_INITIALIZED, web3 })
+        return web3
     } else if (options.fallback) {
-      // Attempt fallback if no web3 injection.
-      switch (options.fallback.type) {
-        case 'ws':
-          const provider = new Web3.providers.WebsocketProvider(
-            options.fallback.url
-          )
-          web3 = new Web3(provider)
-          yield put({ type: Action.WEB3_INITIALIZED, web3 })
-          return web3
+        // Attempt fallback if no web3 injection.
+        switch (options.fallback.type) {
+          case 'ws':
+            const provider = new Web3.providers.WebsocketProvider(
+              options.fallback.url
+            )
+            web3 = new Web3(provider)
+            yield put({ type: Action.WEB3_INITIALIZED, web3 })
+            return web3
 
-        default:
-          // Invalid options; throw.
-          throw new Error('Invalid web3 fallback provided.')
-      }
+          default:
+            // Invalid options; throw.
+            throw new Error('Invalid web3 fallback provided.')
+        }
     } else {
-      // Out of web3 options; throw.
-      throw new Error('Cannot find injected web3 or valid fallback.')
+        // Out of web3 options; throw.
+        throw new Error('Cannot find injected web3 or valid fallback.')
     }
   } catch (error) {
     yield put({ type: Action.WEB3_FAILED, error })

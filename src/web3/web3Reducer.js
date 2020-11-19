@@ -2,7 +2,8 @@ import * as Action from './web3Actions'
 import { ACCOUNTS_FAILED } from '../accounts/accountsActions'
 
 const initialState = {
-  status: 'initializing'
+  status: 'initializing',
+  isMetaMask: false
 }
 
 const web3Reducer = (state = initialState, action) => {
@@ -14,9 +15,11 @@ const web3Reducer = (state = initialState, action) => {
   }
 
   if (action.type === Action.WEB3_INITIALIZED) {
+    const { web3 } = action;
     return {
       ...state,
-      status: 'initialized'
+      status: 'initialized',
+      isMetaMask: !!(web3 && web3.currentProvider && web3.currentProvider.isMetaMask)
     }
   }
 
