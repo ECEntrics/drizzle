@@ -6,6 +6,18 @@ import * as TransactionsActions from '../transactions/transactionsActions'
 /*
  * Events
  */
+
+// Patch for EVENT_FIRED being called multiple times for the same event
+let eventSet = new Set();
+
+function isEventUnique(event){
+  const size = eventSet.size;
+  eventSet.add(event.event + '-' + event.transactionHash);
+  if(eventSet.size>size)
+    return true;
+  return false;
+}
+
 export function createContractEventChannel ({
   contract,
   eventName,
@@ -14,9 +26,10 @@ export function createContractEventChannel ({
   const name = contract.contractName
 
   return eventChannel(emit => {
-    const eventListener = contract.events[eventName](eventOptions)
+    const eventListener = contract.events[eventName]()
       .on('data', event => {
-        emit({ type: ContractActions.CONTRACT_EVENT_FIRED, name, event })
+        if(isEventUnique(event))
+          emit({ type: ContractActions.CONTRACT_EVENT_FIRED, name, event })
       })
       .on('changed', event => {
         emit({ type: ContractActions.CONTRACT_EVENT_CHANGED, name, event })
