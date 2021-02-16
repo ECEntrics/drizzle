@@ -36,6 +36,10 @@ export function createBlockChannel ({ drizzle, web3 }) {
 }
 
 function * callCreateBlockChannel ({ drizzle, web3 }) {
+  // Get current block
+  const currentBlock = yield call(web3.eth.getBlock,"latest");
+  yield put ({ type: BlocksActions.BLOCK_RECEIVED, blockHeader: currentBlock, drizzle, web3 })
+
   const blockChannel = yield call(createBlockChannel, {
     drizzle,
     web3
