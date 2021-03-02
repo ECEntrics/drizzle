@@ -100,6 +100,30 @@ const contractsReducer = (state = initialState, action) => {
     }
   }
 
+  if (action.type === ContractActions.CLEAR_CALL_CONTRACT_FN) {
+    const { argsHash, contractName, fnName } = action;
+    if(argsHash !== '0x0'){
+      const {[argsHash]: _, ...remainingHashes} = state[contractName][fnName];
+      return {
+        ...state,
+        [contractName]: {
+          ...state[contractName],
+          [fnName]: {
+            ...remainingHashes
+          }
+        }
+      }
+    }
+
+    return {
+      ...state,
+      [contractName]: {
+        ...state[contractName],
+        [fnName]: { }
+      }
+    }
+  }
+
   if (action.type === ContractActions.ERROR_CONTRACT_VAR) {
     return {
       ...state,

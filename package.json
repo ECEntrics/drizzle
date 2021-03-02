@@ -1,6 +1,6 @@
 {
   "name": "@ezerous/drizzle",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "A reactive data-store for web3 and smart contracts.",
   "license": "MIT",
   "author": "Ezerous <ezerous@gmail.com>",

@@ -25,6 +25,7 @@ class DrizzleContract {
       var item = this.abi[i]
       if (isGetterFunction(item)) {
         this.methods[item.name].cacheCall = this.cacheCallFunction(item.name, i)
+        this.methods[item.name].clearCacheCall = this.clearCacheCallFunction(item.name, i)
       }
       if (isSetterFunction(item)) {
         this.methods[item.name].cacheSend = this.cacheSendFunction(item.name, i)
@@ -55,16 +56,13 @@ class DrizzleContract {
   }
 
   cacheCallFunction (fnName, fnIndex, fn) {
-    var contract = this
+    const contract = this
 
     return function () {
       // Collect args and hash to use as key, 0x0 if no args
-      var argsHash = '0x0'
-      var args = arguments
+      const args = arguments
+      const argsHash = args.length > 0 ? contract.generateArgsHash(args) : '0x0'
 
-      if (args.length > 0) {
-        argsHash = contract.generateArgsHash(args)
-      }
       const contractName = contract.contractName
       const functionState = contract.store.getState().contracts[contractName][
         fnName
@@ -89,6 +87,21 @@ class DrizzleContract {
 
       // Return nothing because state is currently empty.
       return argsHash
+    }
+  }
+
+  clearCacheCallFunction (fnName, fnIndex) {
+    const contract = this
+    return function () {
+      // Collect args and hash to use as key, 0x0 if no args
+      const args = arguments
+      const argsHash = args.length > 0 ? contract.generateArgsHash(args) : '0x0'
+      contract.store.dispatch({
+        type: ContractActions.CLEAR_CALL_CONTRACT_FN,
+        contractName: contract.contractName,
+        fnName,
+        argsHash
+      })
     }
   }
 
